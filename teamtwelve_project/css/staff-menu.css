@@ -1,0 +1,35 @@
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+table.menu {
+width:100%;
+background-color:#FFFFFF;
+border-width:0px;
+border-color:#FFFFFF;
+border-style:solid;
+color:#000000;
+border-collapse:separate;
+}
+
+table.menu td, table.menu th {
+border-width:5px;
+border-color:#FFFFFF;
+border-style:solid;
+padding:5px;
+font-size:24px;
+text-align: center;
+}
+
+table.menu td{
+
+ background-color:#EDEBE8;
+    
+}
+
+table.menu thead {
+background-color:#33CC00;
+}

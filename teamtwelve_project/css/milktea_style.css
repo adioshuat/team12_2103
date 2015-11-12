@@ -1,0 +1,25 @@
+h1, h2, h3 { color: #000; margin-bottom: 0; padding-bottom: 0; }
+h1 { font-size: 2em; font-family:Serif;}
+h2 { font-size: 1.75em; }
+h3 { font-size: 1.2em; font-family:Serif;}
+table { margin-top: 0.75em; }
+th { font-size: 1.2em; text-align: left; border: none; padding-left: 0; }
+td { padding: 0.25em 2em 0.25em 0em; border: 0 none; }
+
+body{
+    background-image:url(../images/background/bubbletea_background.png);
+}
+.footer{
+    text-align: center;
+    float:bottom;
+}
+.navbar-default{
+    background-color: white;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+}
+.container-fluid{
+    background-color: white;
+    color: #333; font-size: .85em;
+    font-family: Sans-Serif;
+}
