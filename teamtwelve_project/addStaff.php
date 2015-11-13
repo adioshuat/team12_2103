@@ -12,10 +12,10 @@
     <title>Add Staff</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="staff-menu.css" rel="stylesheet">
+    <link href="css/staff-menu.css" rel="stylesheet">
   </head>
 
   <body>
