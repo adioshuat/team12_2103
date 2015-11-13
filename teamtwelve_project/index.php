@@ -1,13 +1,9 @@
 <!DOCTYPE html>
 <?php
 session_start();
+
 $current_url =  $_SERVER["QUERY_STRING"]; 
 $categorysel = explode("=",$current_url);   
-
-if(isset($_SESSION['userid']))
-{
-    $userid= $_SESSION['userid'];
-}
 ?>
 
 <html>
@@ -84,16 +80,17 @@ if(isset($_SESSION['userid']))
                 $myurl= 'images/beverage/'.$drinkCategory;    
             }
             
-            $sql_select= "SELECT drinkId,drinkCategory,drinkName,imageLocation from dbo.Drinkbase where drinkCategory='".$drinkCategory."'";
+            $sql_select= "SELECT drinkId,drinkType,drinkCategory,drinkName,imageLocation from dbo.Drinkbase where drinkCategory='".$drinkCategory."'";
           
             $stmt = $connection->query($sql_select);
             $beverages = $stmt->fetchAll(); 
             if(count($beverages) > 0) {   
                 foreach($beverages as $bev) {
                     echo '<div class="col-xs-6 col-sm-4 col-md-3">';
+                    $photo= (basename($bev['imageLocation'],'.jpg'));
                     echo '<a href="product_select.php?id='.$bev['drinkId'].'" class="thumbnail">';
                     echo '<img src="'.$myurl.'/'.$bev['imageLocation'].'"/>';
-                    echo '<caption>'.$bev['drinkName'];
+                    echo '<caption>'.$bev['drinkType'].' '.$bev['drinkName'];
                     echo '</caption>';
                     echo '</a>';
                     echo '</div>';
@@ -103,6 +100,7 @@ if(isset($_SESSION['userid']))
                 echo "<h3>No image found.</h3>";
             }            
             echo '</div>';
+
         ?>
         </div>
         <?php include "page_include/footer.inc.php"?>

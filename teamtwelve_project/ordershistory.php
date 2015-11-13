@@ -60,22 +60,24 @@ else{
         <h2>My Orders</h2>    
         <tr> 
           <td><strong><font color="#000000">Item</font></strong></td>
+          <td><strong><font color="#000000">Type</font></strong></td>
           <td><strong><font color="#000000">Drink</font></strong></td>
           <td><strong><font color="#000000">Ingredient</font></strong></td>
           <td><strong><font color="#000000">Cupsize</font></strong></td>
           <td><strong><font color="#000000">Sugar</font></strong></td>
           <td><strong><font color="#000000">Quantity</font></strong></td>
-          <td><strong><font color="#000000">Price</font></strong></td>
+          <td><strong><font color="#000000">Price ($)</font></strong></td>
         </tr>';
     foreach($transactions as $trans)
     { 
           echo '<tr><td>'.$trans['itemId'].'</td>';
+          echo '<td>'.$trans['drinkType'].'</td>';
           echo '<td>'.$trans['drinkName'].'</td>';
           echo '<td>'.$trans['ingredientName'].'</td>';
           echo '<td>'.$trans['cupName'].'</td>';
           echo '<td>'.$trans['percentage'].'</td>';
           echo '<td>'.$trans['quantity'].'</td>';
-          echo '<td>'.$trans['itemPrice'].'</td>';
+          echo '<td>'.round($trans['itemPrice'],2).'</td>';
     }    
         echo '</tr></table><p><br/></p>';
         echo '</div>';

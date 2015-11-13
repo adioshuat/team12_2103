@@ -5,13 +5,6 @@ session_start();
 $current_url =  $_SERVER["QUERY_STRING"]; 
 $categorysel = explode("=",$current_url);   
 
-if(isset($_SESSION['userid']))
-{
-    $userId= $_SESSION['userid'];
-}
-else{
-    header("Location: login.php");
-}
 
 ?>
 
@@ -89,7 +82,7 @@ else{
                 $myurl= 'images/beverage/'.$drinkCategory;    
             }
             
-            $sql_select= "SELECT drinkId,drinkCategory,drinkName,imageLocation from dbo.Drinkbase where drinkCategory='".$drinkCategory."'";
+            $sql_select= "SELECT drinkId,drinkType,drinkCategory,drinkName,imageLocation from dbo.Drinkbase where drinkCategory='".$drinkCategory."'";
           
             $stmt = $connection->query($sql_select);
             $beverages = $stmt->fetchAll(); 
@@ -99,7 +92,7 @@ else{
                     $photo= (basename($bev['imageLocation'],'.jpg'));
                     echo '<a href="product_select.php?id='.$bev['drinkId'].'" class="thumbnail">';
                     echo '<img src="'.$myurl.'/'.$bev['imageLocation'].'"/>';
-                    echo '<caption>'.$bev['drinkName'];
+                    echo '<caption>'.$bev['drinkType'].' '.$bev['drinkName'];
                     echo '</caption>';
                     echo '</a>';
                     echo '</div>';

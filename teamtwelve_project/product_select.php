@@ -47,7 +47,7 @@ $drinksel = explode("=",$current_url);
             $_SESSION['drinkid']=$drinksel[1];
             $drinkId= $drinksel[1];
             
-            $sql_select= "SELECT DISTINCT drinkCategory, drinkName, imageLocation from dbo.Drinkbase where drinkId= ?";
+            $sql_select= "SELECT DISTINCT drinkCategory, drinkType, drinkName, imageLocation from dbo.Drinkbase where drinkId= ?";
             $stmt = $connection->prepare($sql_select);
             $stmt->bindValue(1, $drinkId);
             $stmt->execute();
@@ -58,7 +58,7 @@ $drinksel = explode("=",$current_url);
                 {
                     $myurl= 'images/beverage/'.$bev['drinkCategory'].'/'.$bev['imageLocation'];  
                     echo '<div class="col-xs-6 col-sm-4 col-md-3">';
-                    echo '<h2>'.$bev['drinkName'];
+                    echo '<h2>'.$bev['drinkType']." ".$bev['drinkName'];
                     echo '</h2>';
                     echo '<img src="'.$myurl.'" class="thumbnail">';
                     echo '</div>';
