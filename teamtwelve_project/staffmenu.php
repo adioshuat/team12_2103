@@ -9,41 +9,16 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Staff menu</title>
+    <title>Staff menu 2</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="css/starter-template.css" rel="stylesheet">
+    <?php include "page_include/staffheader.inc.php"?>
   </head>
 
   <body>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+
+
       <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Treble</a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
-
-    <div class="container">
-
-      <div class="starter-template">
         <h1>Staff Menu</h1>
             <table class="menu">
             <thead>
@@ -56,34 +31,34 @@
             </thead>
                 <tbody>
                 <tr>
-                    <td>Transaction</td>
-                    <td>Add Staff</td>
-                    <td>Edit Staff</td>
-                    <td>View Sales</td>
+                    <td><a href="billing.php" class="btn btn-success customwidth customwidth" role="button">Billing</a></td>
+                    <td><a href="addStaff.php" class="btn btn-success customwidth customwidth" role="button">Add Staff</a></td>
+                    <td><a href="#" class="btn btn-success customwidth" role="button">Edit Staff</a></td>
+                    <td><a href="viewStaff.php" class="btn btn-success customwidth" role="button">View Sales</a></td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td>Add Location</td>
-                    <td>Edit Location</td>
-                    <td>View Customer</td>
+                    <td><a href="addLocation.php" class="btn btn-success customwidth" role="button">Add Location</a></td>
+                    <td><a href="viewLocation.php" class="btn btn-success customwidth" role="button">Edit Location</a></td>
+                    <td><a href="#" class="btn btn-success customwidth" role="button">View Customer</a></td>
+                </tr>
+                <tr>
+                    <td><a href="viewDrink.php" class="btn btn-success customwidth" role="button">View drink</a></td>
+                    <td><a href="addDrink.php" class="btn btn-success customwidth" role="button">Add Drink</a></td>
+                    <td><a href="#" class="btn btn-success customwidth" role="button">Edit drink</a></td>
+                    <td><a href="viewStaff.php" class="btn btn-success customwidth" role="button">View Staff</a></td>
+                </tr>
+                <tr>
+                     <td><a href="viewIngredient.php" class="btn btn-success customwidth" role="button">View ingredient</a></td>
+                    <td><a href="addIngredient.php" class="btn btn-success customwidth" role="button">Add ingredient</a></td>
+                    <td><a href="#" class="btn btn-success customwidth" role="button">Edit ingredient</a></td>
+                    <td><a href="viewLocation.php" class="btn btn-success customwidth" role="button">View Location</a></td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td>Add drink</td>
-                    <td>Edit drink</td>
-                    <td>View Staff</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>Add ingredient</td>
-                    <td>Edit ingredient</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>Add Sugar level</td>
-                    <td>Edit Sugar level</td>
-                    <td></td>
+                    <td><a href="addSugarLevel.php" class="btn btn-success customwidth" role="button">Add Sugar level</a></td>
+                    <td><a href="#" class="btn btn-success customwidth" role="button">Edit Sugar level</a></td>
+                    <td><a href="viewSugarLevel.php" class="btn btn-success customwidth" role="button">view Sugar level</a></td>
                 </tr>
                 </tbody>
             </table>
@@ -91,7 +66,6 @@
       
       </div>
 
-    </div><!-- /.container -->
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
