@@ -22,14 +22,89 @@ border-style:solid;
 padding:5px;
 font-size:24px;
 text-align: center;
-}
-
-table.menu td{
-
- background-color:#EDEBE8;
-    
+color:white;
 }
 
 table.menu thead {
 background-color:#33CC00;
+}
+#addLocation,#addDrink,#addStaff,#addlocation,addIngredient,addSugarLevel{
+      padding-top: 100px;
+}
+.customwidth {
+    width: 150px !important;
+}
+/*css for view staff*/
+table.viewStaff {
+width:100%;
+background-color:#FFFFFF;
+border-width:0px;
+border-color:#FFFFFF;
+border-style:solid;
+border-collapse:separate;
+    
+}
+table.viewStaff td, table.viewStaff th {
+border-width:5px;
+border-color:#FFFFFF;
+border-style:solid;
+padding:5px;
+font-size:14px;
+text-align: center;
+}
+/*css for view location*/
+table.viewLocation {
+width:100%;
+background-color:#FFFFFF;
+border-width:0px;
+border-color:#FFFFFF;
+border-style:solid;
+border-collapse:separate;
+    
+}
+table.viewLocation td, table.viewLocation th {
+border-width:5px;
+border-color:#FFFFFF;
+border-style:solid;
+padding:5px;
+font-size:14px;
+text-align: center;
+}
+
+/*css for view Ingredient*/
+table.viewIngredient {
+width:100%;
+background-color:#FFFFFF;
+border-width:0px;
+border-color:#FFFFFF;
+border-style:solid;
+border-collapse:separate;
+    
+}
+table.viewIngredient td, table.viewIngredient th {
+border-width:5px;
+border-color:#FFFFFF;
+border-style:solid;
+padding:5px;
+font-size:14px;
+text-align: center;
+}
+
+/*css for view drink*/
+table.viewDrink {
+width:100%;
+background-color:#FFFFFF;
+border-width:0px;
+border-color:#FFFFFF;
+border-style:solid;
+border-collapse:separate;
+    
+}
+table.viewDrink td, table.viewDrink th {
+border-width:5px;
+border-color:#FFFFFF;
+border-style:solid;
+padding:5px;
+font-size:14px;
+text-align: center;
 }
