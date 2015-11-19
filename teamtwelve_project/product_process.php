@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 $stmttrans = $connection->prepare($sql_insert_transaction);
                 $stmttrans->bindValue(1, 0);
                 $stmttrans->bindValue(2, 'False');
-                $stmttrans->bindValue(3, '1900-01-01');
+                $stmttrans->bindValue(3, date("Y-m-d",strtotime('+1 day')));
                 $stmttrans->bindValue(4, $userid);
                 $stmttrans->execute();
             }
