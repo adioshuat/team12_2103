@@ -2,8 +2,35 @@
 session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
-    $ingredientName= $_POST["inputIngredientName"];
-    $ingredientPrice=$_POST["inputIngredientPrice"];
+    $mode;
+    if (isset($_POST["deleteIngredient"]))
+    {
+        $deleteIngredient=$_POST["deleteIngredient"];
+        $mode="delete";
+        echo $deleteIngredient;
+        echo $mode;
+    }
+    if (isset($_POST["inputIngredientName"]))
+    {
+        //INSERT
+        $ingredientName= $_POST["inputIngredientName"];
+        $ingredientPrice=$_POST["inputIngredientPrice"];
+        echo $ingredientName;
+        echo $ingredientPrice;
+        $mode="insert";
+        echo $mode;
+    }
+    if (isset($_POST["updateIngredientId"]))
+    {
+        $updateIngredientId=$_POST["updateIngredientId"];
+        $updateIngredientName=$_POST["updateIngredientName"];
+        $updateIngredientPrice=$_POST["updateIngredientPrice"];
+        echo $updateIngredientId;
+        echo $updateIngredientName;
+        echo $ingredientPrice;
+        $mode="update";
+        echo $mode;
+    }
     
 //    if ($usernameValid && $emailValid && $pwd1Valid && $pwd2Valid)
 //    {
