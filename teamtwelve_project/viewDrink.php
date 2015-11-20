@@ -55,14 +55,20 @@ session_start();
             </tr>
             <?php
             foreach($drinks as $drink) {
-                echo "<tr><td>".$drink['DrinkId']."</td>";
-                echo "<td>".$drink['DrinkCategory']."</td>";
-                echo "<td>".$drink['DrinkType']."</td>";
-                echo "<td>".$drink['DrinkName']."</td>";
-                echo "<td>".$drink['price']."</td>";
-                echo "<td>".$drink['imageLocation']."</td>";
-                echo "<td>Edit</td>";
-                echo "<td>Delete</td></tr>";
+                echo "<tr>";
+                echo "<td><form method='post' action='addDrinkProcess.php'>".$drink['DrinkId']."</td>";
+                echo "<td><input type='text' name='updateDrinkCategory' value=".$drink['DrinkCategory']."></td>";
+                echo "<td><input type='text' name='updateDrinkType' value=".$drink['DrinkType']."></td>";
+                echo "<td><input type='text' name='updateDrinkName' value=".$drink['DrinkName']."></td>";
+                echo "<td><input type='text' name='updateDrinkPrice' value=".$drink['price']."></td>";
+                echo "<td><input type='text' name='updateImageLocation' value=".$drink['imageLocation']."></td>";
+                echo "<td><button id='updateDrinkId' name='updateDrinkId' value=".$drink['DrinkId'].">Edit</button></form></td>";
+                echo "<td>";
+                echo "<form action='addDrinkProcess.php' method='post'>";
+                echo "<button id='deleteDrink' name='deleteDrink' value=".$drink['DrinkId'].">Delete</button>";
+                echo "</form>";
+                echo "</td>";
+                echo "</tr>";
             }
             ?>
           </table>
