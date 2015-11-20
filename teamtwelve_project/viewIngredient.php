@@ -52,11 +52,17 @@ session_start();
             </tr>
             <?php
             foreach($ingredients as $ingredient) {
-                echo "<tr><td>".$ingredient['ingredientId']."</td>";
-                echo "<td>".$ingredient['ingredientName']."</td>";
-                echo "<td>".$ingredient['price']."</td>";
-                echo "<td>Edit</td>";
-                echo "<td>Delete</td></tr>";
+                echo "<tr>";
+                echo "<td><form method='post' action='addIngredientProcess.php'>".$ingredient['ingredientId']."</td>";
+                echo "<td><input type='text' name='updateIngredientName' value=".$ingredient['ingredientName']."></td>";
+                echo "<td><input type='text' name='updateIngredientPrice' value=".$ingredient['price']."></td>";
+                echo "<td><button id='updateIngredientId' name='updateIngredientId' value=".$ingredient['ingredientId'].">Edit</button></form></td>";
+                echo "<td>";
+                echo "<form action='addIngredientProcess.php' method='post'>";
+                echo "<button id='deleteIngredient' name='deleteIngredient' value=".$ingredient['ingredientId'].">Delete</button>";
+                echo "</form>";
+                echo "</td>"; 
+                echo "</tr>";
             }
             ?>
           </table>
