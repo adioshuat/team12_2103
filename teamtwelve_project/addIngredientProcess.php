@@ -51,13 +51,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             die(var_dump($e));
         }
         try{
-            $sql_insert = "INSERT INTO Ingredient (ingredientName,price)
-                                   VALUES (?,?)";
-            $stmt = $conn->prepare($sql_insert);
-            $stmt->bindValue(1, $ingredientName);
-            $stmt->bindValue(2,  $ingredientPrice);
-            $stmt->execute();
-            header("Location: staffmenu.php");
+            if($mode=="insert")
+            {
+                $sql_insert = "INSERT INTO Ingredient (ingredientName,price)VALUES (?,?)";
+                $stmt = $conn->prepare($sql_insert);
+                $stmt->bindValue(1, $ingredientName);
+                $stmt->bindValue(2,  $ingredientPrice);
+                $stmt->execute();
+                header("Location: staffmenu.php");
+            }
+            if($mode=="update")
+                {
+                $sql_select = "SELECT * FROM dbo.Ingredient where ingredientId =$updateIngredientId" ;
+                $stmt = $conn->query($sql_select);
+                $ingredients = $stmt->fetchAll(); 
+                $result=count($ingredients);
+                if($result==1)
+                    {
+                    $sql_update = "UPDATE dbo.Ingredient SET ingredientName='$updateIngredientName',price='$updateIngredientPrice' WHERE ingredientId =$updateIngredientId" ;
+                    $Query = $conn->query($sql_update);
+                    header("Location: staffmenu.php");
+                    }
+                 }
+            if($mode=="delete")
+                {
+                $sql_select = "SELECT * FROM dbo.Ingredient  where ingredientId =$deleteIngredient" ;
+                $stmt = $conn->query($sql_select);
+                 $ingredients = $stmt->fetchAll(); 
+                $result=count($ingredients);
+                if($result==1)
+                    {
+                    $sql_delete = "DELETE FROM dbo.Ingredient where ingredientId =$deleteIngredient" ;
+                    $Query = $conn->query($sql_delete);
+                    header("Location: staffmenu.php");
+                    }
+                 }
         }
 
 
