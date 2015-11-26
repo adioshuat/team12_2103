@@ -54,8 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     <body>  
     <div class="container">
     <?php include "page_include/header.inc.php"?>
-    <div class="container-fluid" class="col-md-12">  
-    <?php echo $username, $password?>    
+    <div class="container-fluid" class="col-md-12"> 
     <div class="col-md-3">
             <div class="panel panel-default">
                 <div class="panel-heading">

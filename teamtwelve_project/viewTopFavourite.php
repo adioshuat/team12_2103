@@ -13,8 +13,6 @@
         <?php include "page_include/staffheader.inc.php"?>
       </head>
       <body>
-      <div class="container">
-            <h2>View Top Favourite</h2>
         <?php
         session_start();
         
@@ -36,23 +34,26 @@
         $sql= "SELECT name FROM filtercategory order by name";
         $stmtcat = $conn->prepare($sql);
         $stmtcat->execute();
-        $catname = $stmtcat->fetchAll();
-        
-        echo 'Filter: ';
-        echo '<select id="mySelect" onchange="drawChart()">';
-                
-        foreach($catname as $name)
-        {
-            echo '<option id="option" value='.$name['name'].'>'.$name['name'];
-            echo '</option>';
-        }
-        echo '</select>';
-        echo '<p></p>';
-        echo '<input type="radio" name="radio" value="BarChart" checked="checked">BarChart 
-              <input type="radio" name="radio" value="PieChart">PieChart';?>
+        $catname = $stmtcat->fetchAll();?>
             
-  <p id="filter"></p>
-  <div align="center" id="chart_div"></div>
+        <div class="container">
+            <h2>View Top 5 Favorite</h2>
+              <div class="form-group">
+                    <?php
+                    echo '<select id="mySelect" onchange="drawChart()">';
+                    echo '</option>';
+                
+                    foreach($catname as $name)
+                    {
+                        echo '<option id="option" value="'.$name['name'].'">'.$name['name'];
+                        echo '</option>';
+                    }
+                    echo '</select>';
+                    ?>
+              </div>  
+              <p id="filter"></p>
+            <div id="chart_div"></div>
+        </div>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
       google.load('visualization', '1.0', {'packages':['corechart']});
@@ -63,18 +64,19 @@
         document.getElementById("filter").innerHTML = "You selected to filter: " + filter;
        
         var data = new google.visualization.DataTable();
+                   
         data.addColumn('string', filter);
         data.addColumn('number', 'Quantity');
         
         if(filter==='Drink')
         {
         <?php
-            $sql_select= "select i.drinkId, d.DrinkType, d.DrinkName, sum(i.quantity) as total from items i, Transactions t, Drinkbase d
+            $sql_select= "select top 5 i.drinkId, d.DrinkType, d.DrinkName, sum(i.quantity) as total from items i, Transactions t, Drinkbase d
                         where t.orderId=i.orderId
                         and d.DrinkId=i.drinkId
                         and t.orderStatus='False' 
                         group by i.drinkId,d.DrinkType,d.DrinkName
-                        order by i.drinkId";
+                        order by total desc";
             $stmt = $conn->prepare($sql_select);
             $stmt->execute();
             $drinklist = $stmt->fetchAll();
@@ -91,12 +93,12 @@
         else if(filter==='Ingredient')
         {
         <?php
-            $sql_ing= "select i.ingredientId, ing.ingredientName, sum(i.quantity) as total from items i, Transactions t, Ingredient ing
+            $sql_ing= "select top 5 i.ingredientId, ing.ingredientName, sum(i.quantity) as total from items i, Transactions t, Ingredient ing
                         where t.orderId=i.orderId
                         and ing.ingredientId=i.ingredientId
                         and t.orderStatus='False' 
                         group by i.ingredientId, ing.ingredientName
-                        order by i.ingredientId";
+                        order by total desc";
             $stmt2 = $conn->prepare($sql_ing);
             $stmt2->execute();
             $inglist = $stmt2->fetchAll();
@@ -112,13 +114,13 @@
         else if(filter==='Store')
         {
         <?php
-            $sql_store= "select st.staffId, sto.storeName, sum(i.quantity) as total from items i, Transactions t, Staff st, Store sto
+            $sql_store= "select top 5 st.staffId, sto.storeName, sum(i.quantity) as total from items i, Transactions t, Staff st, Store sto
                         where t.orderId=i.orderId
 			and st.staffId=t.staffId
 			and st.storeId=sto.storeId
                         and t.orderStatus='False' 
                         group by st.staffId, sto.storeName
-                        order by st.staffId";
+                        order by total desc";
             $stmt3 = $conn->prepare($sql_store);
             $stmt3->execute();
             $storelist = $stmt3->fetchAll();
@@ -131,15 +133,15 @@
                 }
             }
         ?>}
-        else if(filter==='Sugar')
+        else if(filter==='Sugar Preference')
         {
         <?php
-            $sql_sugar= "select i.sugarLevelId, sg.percentage, sum(i.quantity) as total from items i, Transactions t, SugarLevel sg
+            $sql_sugar= "select top 5 i.sugarLevelId, sg.percentage, sum(i.quantity) as total from items i, Transactions t, SugarLevel sg
                         where t.orderId=i.orderId
                         and sg.sugarLevelId=i.sugarLevelId
                         and t.orderStatus='False' 
                         group by i.sugarLevelId,sg.percentage
-                        order by i.sugarLevelId";
+                        order by total desc";
             $stmt4 = $conn->prepare($sql_sugar);
             $stmt4->execute();
             $sugarlist = $stmt4->fetchAll();
@@ -155,12 +157,12 @@
         else if(filter==='Customer')
         {
         <?php
-            $sql_customer= "select t.customerId, c.customerName, sum(i.quantity) as total from items i, Transactions t, Customer c
+            $sql_customer= "select top 5 t.customerId, c.customerName, sum(i.quantity) as total from items i, Transactions t, Customer c
                         where t.orderId=i.orderId
 			and c.customerId=t.customerId
                         and t.orderStatus='False' 
                         group by t.customerId, c.customerName
-                        order by t.customerId";
+                        order by total desc";
             $stmt5 = $conn->prepare($sql_customer);
             $stmt5->execute();
             $customerlist = $stmt5->fetchAll();
@@ -176,12 +178,12 @@
         else if(filter==='Staff')
         {
         <?php
-            $sql_stf= "select t.staffId, st.staffName, sum(i.quantity) as total from items i, Transactions t, Staff st
+            $sql_stf= "select top 5 t.staffId, st.staffName, sum(i.quantity) as total from items i, Transactions t, Staff st
                         where t.orderId=i.orderId
 			and st.staffId=t.staffId
                         and t.orderStatus='False' 
                         group by t.staffId, st.staffName
-                        order by t.staffId";
+                        order by total desc";
             $stmt6 = $conn->prepare($sql_stf);
             $stmt6->execute();
             $stafflist = $stmt6->fetchAll();
@@ -195,10 +197,15 @@
             }
         ?>
         } 
+                   
         var options = {
-          title: 'Sales Result', 
-          'width':700,
-          'height':500};
+          title: 'Sales Result',
+          'width':800,
+          'height':500,
+          displayAnnotations: true,
+          bar: {groupWidth: "10%"},
+          legend: {position: "bottom"}
+        };
          
         var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
        

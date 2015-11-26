@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <?php
 session_start();
+
+$current_url =  $_SERVER["QUERY_STRING"]; 
+$drinksel = explode("=",$current_url);   
+if(empty($drinksel[1]))
+{
+    header("Location: login.php");
+}
+
 if(isset($_SESSION['userid']))
 {
     $userId= $_SESSION['userid'];
@@ -8,10 +16,6 @@ if(isset($_SESSION['userid']))
 else{
     header("Location: login.php");
 }
-
-$current_url =  $_SERVER["QUERY_STRING"]; 
-$drinksel = explode("=",$current_url);   
-
 ?>
 
 <html>

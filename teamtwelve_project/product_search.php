@@ -1,19 +1,6 @@
 <!DOCTYPE html>
 <?php
 session_start();
-$userId='';
-
-$current_url =  $_SERVER["QUERY_STRING"]; 
-$drinksel = explode("=",$current_url);   
-
-if(isset($_SESSION['userid']))
-{
-    $userId= $_SESSION['userid'];
-}
-else{
-    header("Location: login.php");
-}
-
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
      if (isset($_POST["searchText"]))
@@ -53,7 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             $output= "<p>Unable to connect to database<p>". $error;
             exit($output);
         }
-            $sql_select= "select * from Drinkbase where imagelocation LIKE '%".$searchvalue."%'";
+            $sql_select= "select * from Drinkbase
+                        where drinktype like '%".$searchvalue."%' or DrinkName like '%".$searchvalue."%'";
             $stmt = $connection->prepare($sql_select);
             $stmt->bindValue(1, $searchvalue);
             $stmt->execute();
@@ -64,11 +52,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 echo '<h3>'.$countsearch.' results found..</h3><p></p>';  
                 foreach($searchlist as $search)
                 {   
-                    echo '<div class="col-xs-6 col-sm-4 col-md-2">';
-                    $myurl= 'images/beverage/'.$search['drinkCategory'].'/'.$search['imageLocation'];  
-                    echo '<a href="product_select.php?id='.$search['drinkId'].'" class="thumbnail">';
-                    echo '<img src="'.$myurl.'"/>';
-                    echo '<caption>'.$search['drinkName'];
+                    echo '<div class="col-xs-8 col-sm-4 col-md-3">';
+                    echo '<a href="product_select.php?id='.$search['DrinkId'].'" class="thumbnail">';
+                    echo '<img src="images/beverage/'.$search['DrinkCategory'].'/'.$search['imageLocation'].'"/>';
+                    echo '<caption>'.$search['DrinkType'].' '.$search['DrinkName'];
                     echo '</caption>';
                     echo '</a>';
                     echo '</div>';
@@ -79,7 +66,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 echo '<p></p>';
             }            
             echo '</div>';
-
         ?>
         </div>
         <?php include "page_include/footer.inc.php"?>

@@ -45,7 +45,7 @@ else{
         }
        
         
-    $sql_selectbeverage = "select i.itemId,d.drinkName,ing.ingredientName,c.cupName, sg.percentage,i.quantity, i.itemPrice from Items i, Drinkbase d, Ingredient ing, Cup c, SugarLevel sg, 
+    $sql_selectbeverage = "select i.itemId,d.drinkType,d.drinkName,ing.ingredientName,c.cupName, sg.percentage,i.quantity, i.itemPrice from Items i, Drinkbase d, Ingredient ing, Cup c, SugarLevel sg, 
                         Transactions tt where i.drinkId=d.drinkId AND i.ingredientId=ing.ingredientId 
                         AND i.cupId=c.cupId AND i.sugarLevelId=sg.sugarLevelId AND 
                         tt.orderId=i.orderId and tt.orderStatus='True' and tt.customerId=?";
@@ -59,7 +59,7 @@ else{
         echo '<table width="100%" border="1">
         <h2>My Orders</h2>    
         <tr> 
-          <td><strong><font color="#000000">Item</font></strong></td>
+          <td><strong><font color="#000000">Item</font></s></td>
           <td><strong><font color="#000000">Type</font></strong></td>
           <td><strong><font color="#000000">Drink</font></strong></td>
           <td><strong><font color="#000000">Ingredient</font></strong></td>
