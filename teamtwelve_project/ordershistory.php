@@ -59,7 +59,7 @@ else{
         echo '<table width="100%" border="1">
         <h2>My Orders</h2>    
         <tr> 
-          <td><strong><font color="#000000">Item</font></s></td>
+          <td><strong><font color="#000000">Item</font></strong></td>
           <td><strong><font color="#000000">Type</font></strong></td>
           <td><strong><font color="#000000">Drink</font></strong></td>
           <td><strong><font color="#000000">Ingredient</font></strong></td>

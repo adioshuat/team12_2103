@@ -89,6 +89,7 @@ $categorysel = explode("=",$current_url);
             if(count($beverages) > 0) {   
                 foreach($beverages as $bev) {
                     echo '<div class="col-xs-6 col-sm-4 col-md-3">';
+                    $photo= (basename($bev['imageLocation'],'.jpg'));
                     echo '<a href="product_select.php?id='.$bev['drinkId'].'" class="thumbnail">';
                     echo '<img src="'.$myurl.'/'.$bev['imageLocation'].'"/>';
                     echo '<caption>'.$bev['drinkType'].' '.$bev['drinkName'];

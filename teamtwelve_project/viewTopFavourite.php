@@ -71,10 +71,10 @@
         if(filter==='Drink')
         {
         <?php
-            $sql_select= "select top 5 i.drinkId, d.DrinkType, d.DrinkName, sum(i.quantity) as total from items i, Transactions t, Drinkbase d
+            $sql_select= "select i.drinkId, d.DrinkType, d.DrinkName, sum(i.quantity) as total from items i, Transactions t, Drinkbase d
                         where t.orderId=i.orderId
                         and d.DrinkId=i.drinkId
-                        and t.orderStatus='False' 
+                        and t.orderStatus='True' 
                         group by i.drinkId,d.DrinkType,d.DrinkName
                         order by total desc";
             $stmt = $conn->prepare($sql_select);
@@ -96,7 +96,7 @@
             $sql_ing= "select top 5 i.ingredientId, ing.ingredientName, sum(i.quantity) as total from items i, Transactions t, Ingredient ing
                         where t.orderId=i.orderId
                         and ing.ingredientId=i.ingredientId
-                        and t.orderStatus='False' 
+                        and t.orderStatus='True' 
                         group by i.ingredientId, ing.ingredientName
                         order by total desc";
             $stmt2 = $conn->prepare($sql_ing);
@@ -118,7 +118,7 @@
                         where t.orderId=i.orderId
 			and st.staffId=t.staffId
 			and st.storeId=sto.storeId
-                        and t.orderStatus='False' 
+                        and t.orderStatus='True' 
                         group by st.staffId, sto.storeName
                         order by total desc";
             $stmt3 = $conn->prepare($sql_store);
@@ -139,7 +139,7 @@
             $sql_sugar= "select top 5 i.sugarLevelId, sg.percentage, sum(i.quantity) as total from items i, Transactions t, SugarLevel sg
                         where t.orderId=i.orderId
                         and sg.sugarLevelId=i.sugarLevelId
-                        and t.orderStatus='False' 
+                        and t.orderStatus='True' 
                         group by i.sugarLevelId,sg.percentage
                         order by total desc";
             $stmt4 = $conn->prepare($sql_sugar);
@@ -160,7 +160,7 @@
             $sql_customer= "select top 5 t.customerId, c.customerName, sum(i.quantity) as total from items i, Transactions t, Customer c
                         where t.orderId=i.orderId
 			and c.customerId=t.customerId
-                        and t.orderStatus='False' 
+                        and t.orderStatus='True' 
                         group by t.customerId, c.customerName
                         order by total desc";
             $stmt5 = $conn->prepare($sql_customer);
@@ -181,7 +181,7 @@
             $sql_stf= "select top 5 t.staffId, st.staffName, sum(i.quantity) as total from items i, Transactions t, Staff st
                         where t.orderId=i.orderId
 			and st.staffId=t.staffId
-                        and t.orderStatus='False' 
+                        and t.orderStatus='True' 
                         group by t.staffId, st.staffName
                         order by total desc";
             $stmt6 = $conn->prepare($sql_stf);
