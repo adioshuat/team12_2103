@@ -48,7 +48,7 @@ else{
                 <tbody>
                 <tr>
                     <td><a href="billing.php" class="btn btn-success customwidth customwidth" role="button">Billing</a></td>
-                    <td> <a href="viewcustomervisitstore.php" class="btn btn-success customwidth" role="button">View Customer visits</a>
+                    <td> <a href="viewcustomervisitstore.php" class="btn btn-success customwidth" role="button">View Customer Visits</a>
                         <a href="viewTopFavourite.php" class="btn btn-success customwidth" role="button">View Top Favourite</a>
                     </td>
                     <td>
@@ -58,7 +58,7 @@ else{
                 </tr>
                 <tr>
                     <td></td>
-                    <td></td>
+                    <td><a href="viewStoreSales.php" class="btn btn-success customwidth" role="button">View Store Sales</a></td>
                     <td>
                         <a href="addLocation.php" class="btn btn-success customwidth" role="button">Add Location</a>
                         <a href="viewLocation.php" class="btn btn-success customwidth" role="button">View Location</a>

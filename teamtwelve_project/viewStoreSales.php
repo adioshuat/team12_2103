@@ -1,3 +1,22 @@
+<?php
+session_start();
+
+if(isset($_SESSION['staffId'])&&$_SESSION['adminStatus']=='YES')
+{
+    $_SESSION['adminStatus'];
+    $_SESSION['staffId'];
+    $_SESSION['storeId'];
+    $_SESSION['staffName'];
+    echo '<div class="alert alert-success" role="alert">Welcome '.$_SESSION["staffName"].' <a href="logout.php">Click here to logout</a></div>';
+}
+else if(isset($_SESSION['staffId']))
+    {
+     header("Location: staffmenu.php");
+}
+else{
+    header("Location: stafflogin.php");
+}
+?>
 <html lang="en">
         <head>
           <meta charset="utf-8">
@@ -53,9 +72,8 @@ tags -->
                     ?>
               <p id="filter"></p>
               </div>  
-              <div class="form-group">
               <p id="searchresult"></p>
-              <div id="chart_div"></div></div>
+              <div id="chart_div"></div>
         </div>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
@@ -88,8 +106,7 @@ tags -->
                     hAxis: {title: 'Month'},
                     seriesType: 'bars',
                     'width':800,
-                    'height':500,
-                    displayAnnotations: true,
+                    'height':450,
                     series: {5: {type: 'line'}},
                     bar: {groupWidth: "10%"},
                     legend: {position: "bottom"}

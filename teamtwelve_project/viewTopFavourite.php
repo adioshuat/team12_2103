@@ -1,4 +1,23 @@
-   <html lang="en">
+ <?php
+session_start();
+
+if(isset($_SESSION['staffId'])&&$_SESSION['adminStatus']=='YES')
+{
+    $_SESSION['adminStatus'];
+    $_SESSION['staffId'];
+    $_SESSION['storeId'];
+    $_SESSION['staffName'];
+    echo '<div class="alert alert-success" role="alert">Welcome '.$_SESSION["staffName"].' <a href="logout.php">Click here to logout</a></div>';
+}
+else if(isset($_SESSION['staffId']))
+    {
+     header("Location: staffmenu.php");
+}
+else{
+    header("Location: stafflogin.php");
+}
+?> 
+<html lang="en">
         <head>
           <meta charset="utf-8">
           <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -38,7 +57,7 @@
             
         <div class="container">
               <div class="form-group">
-                  <h2>View Top 5 Favorite</h2></div>
+                  <h2>View Top 5 Favourite</h2></div>
               <div class="form-group">
                     <?php
                     echo 'Filter by: ';
@@ -202,8 +221,7 @@
         var options = {
           title: 'Sales Result',
           'width':800,
-          'height':500,
-          displayAnnotations: true,
+          'height':450,
           bar: {groupWidth: "10%"},
           legend: {position: "bottom"}
         };
