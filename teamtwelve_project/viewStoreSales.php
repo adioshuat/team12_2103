@@ -1,10 +1,10 @@
-
 <html lang="en">
         <head>
           <meta charset="utf-8">
           <meta http-equiv="X-UA-Compatible" content="IE=edge">
           <meta name="viewport" content="width=device-width, initial-scale=1">
-          <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+          <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these 
+tags -->
           <meta name="description" content="">
           <meta name="author" content="">
           <link rel="icon" href="../../favicon.ico">
@@ -14,9 +14,6 @@
         <?php include "page_include/staffheader.inc.php"?>
       </head>
       <body>
-      <div class="container">
-          <p id="fitler"></p>
-            <h2>View Sales</h2>
         <?php
         session_start();
         
@@ -25,7 +22,6 @@
         $user = DBUSER;
         $pwd = DBPASS;
         $db =  DBNAME;
-
         // Connecting to database
         try {
             $conn = new PDO( "sqlsrv:Server= $host ; Database = $db ", $user, $pwd);
@@ -38,24 +34,29 @@
         $sql= "SELECT DISTINCT(storeName) FROM store order by storeName";
         $stmtcat = $conn->prepare($sql);
         $stmtcat->execute();
-        $catname = $stmtcat->fetchAll();
-        
-        echo 'Filter: ';
-        echo '<select id="mySelect" onchange="drawChart()">';
-        echo '<option id="option" value="ALL">ALL';
-        echo '</option>';
-        
-        foreach($catname as $name)
-        {
-            echo '<option id="option" value="'.$name['storeName'].'">'.$name['storeName'];
-            echo '</option>';
-        }
-        echo '</select>';
-        echo '<p></p>';
-        ?>
-            
-  <p id="filter"></p>
-  <div align="center" id="chart_div"></div>
+        $catname = $stmtcat->fetchAll();?>
+        <div class="container">
+              <div class="form-group">
+                  <h2>View Store Sales</h2></div>
+              <div class="form-group">
+                    <?php
+                    echo 'Filter by: ';
+                    echo '<select id="mySelect" onchange="drawChart()">';
+                    echo '<option id="option" value="ALL">ALL';
+                    echo '</option>';
+                    foreach($catname as $name)
+                    {
+                        echo '<option id="option" value="'.$name['storeName'].'">'.$name['storeName'];
+                        echo '</option>';
+                    }
+                    echo '</select>';
+                    ?>
+              <p id="filter"></p>
+              </div>  
+              <div class="form-group">
+              <p id="searchresult"></p>
+              <div id="chart_div"></div></div>
+        </div>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
       google.load('visualization', '1.0', {'packages':['corechart']});
@@ -63,72 +64,49 @@
       
       function drawChart() {
         var filter = document.getElementById("mySelect").value;
-        document.getElementById("filter").innerHTML = "You selected to filter: " + filter;
-        
-        document.cookie="profile_viewer_uid="+ filter;
-        
         var data = new google.visualization.DataTable();
  
         data.addColumn('string', 'Month');
-        data.addColumn('number', 'Total Sales'); 
-        document.getElementById("filter").innerhtml=filter;
-        if(filter==='ALL')
-        {
-        <?php
-            $sql_select= "SELECT DATENAME(MONTH,timeofpurchase) as 'Month', YEAR(timeofpurchase) as 'Year', COUNT(*) transactions, SUM(totalprice) as 'Total Sales'
-FROM transactions GROUP BY DATENAME(MONTH,timeofpurchase),YEAR(timeofpurchase)";
-            $stmt = $conn->prepare($sql_select);
-            $stmt->execute();
-            $totalsalesList = $stmt->fetchAll();
-            
-            if(count($totalsalesList)>0)
-            {
-                foreach($totalsalesList as $sales)
-                {
-                       $datesales=$sales['Month'].'/'.$sales['Year'];
-                       echo "data.addRow(['{$datesales}', {$sales['Total Sales']}]);";
-                }
-            }
-        ?>
-        }
-        else{
-        <?php
-            $dom = new DOMDocument();
-            $belement = $dom->getElementById("filter");
-            echo $belement->nodeValue;
-            $profile_viewer_uid = $_COOKIE['profile_viewer_uid'];
-            $sql_selectstore= "SELECT DATENAME(MONTH,timeofpurchase) as 'Month', YEAR(timeofpurchase) as 'Year', COUNT(*) transactions, SUM(totalprice) as 'Total Sales'
-                        FROM transactions t, store st, staff stf
-                        WHERE t.staffId=stf.staffId
-                        AND stf.storeId=st.storeId
-                        AND st.storeName LIKE '".$belement."%'
-                        GROUP BY DATENAME(MONTH,timeofpurchase),YEAR(timeofpurchase)";
-            $stmt2 = $conn->prepare($sql_selectstore);
-            $stmt2->execute();
-            $storesalesList = $stmt2->fetchAll();
-            
-            if(count($storesalesList)>0)
-            {
-                foreach($storesalesList as $storesales)
-                {
-                       $datesalesstore=$storesales['Month'].'/'.$storesales['Year'];
-                       echo "data.addRow(['{$datesalesstore}', {$storesales['Total Sales']}]);";
-                }
-            }
-        ?>
-        }      
-        var options = {
-                title : 'Monthly Sales',
-                vAxis: {title: 'Sales($)'},
-                hAxis: {title: 'Month'},
-                seriesType: 'bars',
-                series: {5: {type: 'line'}}
-            };
-            
-        var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+        data.addColumn('number', 'Revenue');
         
-        chart.draw(data, options);
+        var xmlhttp = new XMLHttpRequest();
+        var url = 'viewStoreSales_process.php?location=' + filter;
+        var myArr = [];
+        var chartData = [];
         
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+                myArr = JSON.parse(xmlhttp.responseText);
+                for (var i=0; i<myArr.length; i++) {
+                    chartData.push([myArr[i].month, myArr[i].total_sales]);
+                }
+                console.log(chartData);
+                data.addRows(chartData); 
+                var options = {
+                    title : 'Monthly Sales',
+                    vAxis: {title: 'Sales($)'},
+                    hAxis: {title: 'Month'},
+                    seriesType: 'bars',
+                    'width':800,
+                    'height':500,
+                    displayAnnotations: true,
+                    series: {5: {type: 'line'}},
+                    bar: {groupWidth: "10%"},
+                    legend: {position: "bottom"}
+                };
+                var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+                document.getElementById("chart_div").style.visibility = "visible";
+                document.getElementById("searchresult").style.visibility = "hidden";
+                chart.draw(data, options);
+            }
+            else{
+                document.getElementById("chart_div").style.visibility = "hidden";
+                document.getElementById("searchresult").style.visibility = "visible";
+                document.getElementById("searchresult").innerHTML =  "<b>No results found...</b>";
+            }
+        };
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
       }
   </script>
 </body>

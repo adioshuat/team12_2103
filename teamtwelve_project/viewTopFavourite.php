@@ -37,9 +37,11 @@
         $catname = $stmtcat->fetchAll();?>
             
         <div class="container">
-            <h2>View Top 5 Favorite</h2>
+              <div class="form-group">
+                  <h2>View Top 5 Favorite</h2></div>
               <div class="form-group">
                     <?php
+                    echo 'Filter by: ';
                     echo '<select id="mySelect" onchange="drawChart()">';
                     echo '</option>';
                 
@@ -61,7 +63,6 @@
       
       function drawChart() {
         var filter = document.getElementById("mySelect").value;
-        document.getElementById("filter").innerHTML = "You selected to filter: " + filter;
        
         var data = new google.visualization.DataTable();
                    
@@ -71,7 +72,7 @@
         if(filter==='Drink')
         {
         <?php
-            $sql_select= "select i.drinkId, d.DrinkType, d.DrinkName, sum(i.quantity) as total from items i, Transactions t, Drinkbase d
+            $sql_select= "select top 5 i.drinkId, d.DrinkType, d.DrinkName, sum(i.quantity) as total from items i, Transactions t, Drinkbase d
                         where t.orderId=i.orderId
                         and d.DrinkId=i.drinkId
                         and t.orderStatus='True' 

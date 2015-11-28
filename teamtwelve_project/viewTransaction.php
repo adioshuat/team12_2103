@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <?php
+
 session_start();
 $current_url =  $_SERVER["QUERY_STRING"]; 
 $categorysel = explode("=",$current_url);   
 
 if(isset($_SESSION['userid']))
 {
-    $userid= $_SESSION['userid'];
+    $userd= $_SESSION['userid'];
 }
 else{
     header("Location: login.php");
 }
-
 ?>
 
 <html>
@@ -45,20 +45,19 @@ else{
         }
        
         
-    $sql_selectbeverage = "select CONVERT(VARCHAR(11),tt.timeOfPurchase,106) as 'dateOfPurchase', i.itemId,d.drinkType,d.drinkName,ing.ingredientName,c.cupName, sg.percentage,i.quantity, i.itemPrice from Items i, Drinkbase d, Ingredient ing, Cup c, SugarLevel sg, 
+    $sql_selectbeverage = "select CONVERT(VARCHAR(11),tt.timeOfPurchase,106) as 'dateOfPurchase',i.itemId,d.drinkName,d.drinkType,ing.ingredientName,c.cupName, sg.percentage,i.quantity,i.itemPrice from Items i, Drinkbase d, Ingredient ing, Cup c, SugarLevel sg, 
                         Transactions tt where i.drinkId=d.drinkId AND i.ingredientId=ing.ingredientId 
                         AND i.cupId=c.cupId AND i.sugarLevelId=sg.sugarLevelId AND 
-                        tt.orderId=i.orderId and tt.orderStatus='True' and tt.customerId=? order by dateOfPurchase desc";
+                        tt.orderId=i.orderId and tt.orderStatus='False' and tt.customerId=? order by dateOfPurchase desc";
     $stmtbev = $connection->prepare($sql_selectbeverage);
     $stmtbev->bindValue(1, $userid);
     $stmtbev->execute();
     $transactions = $stmtbev->fetchAll();
 
     if(count($transactions) > 0) {
-        echo '<div>';
         echo '<table>
-        <h2>My Transaction History</h2>    
-        <tr class="row"> 
+        <h2>My Orders</h2>    
+        <tr class="row">
           <td><strong><font color="#000000">No.</font></strong></td>
           <td><strong><font color="#000000">Date Of Purchase</font></strong></td>
           <td><strong><font color="#000000">Item</font></strong></td>
@@ -72,7 +71,7 @@ else{
         </tr>';
     $count=1;
     foreach($transactions as $trans)
-    {     
+    { 
           echo '<tr class="row">';
           echo '<td>'.$count.'</td>';
           echo '<td>'.$trans['dateOfPurchase'].'</td>';
@@ -88,7 +87,6 @@ else{
           $count+=1;
     }    
         echo '</table><p><br/></p>';
-        echo '</div>';
     }
     else{
         echo "<h3>No orders found.</h3>";

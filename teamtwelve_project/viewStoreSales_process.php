@@ -21,8 +21,11 @@ $locationFilter = str_replace("%"," ",$locationFilterGet);
 
 //if all location
 if ($locationFilter == 'ALL') {
-    $query = "SELECT DATENAME(MONTH,timeofpurchase) as 'Month', COUNT(*), SUM(totalprice) as 'Total Sales'
-    FROM transactions GROUP BY DATENAME(MONTH,timeofpurchase)";
+    $query = "SELECT m.monthValue as 'Month', COUNT(*) as 'Total Transactions', SUM(totalprice) as 'Total Sales'
+            FROM transactions t, MonthTable m where DATENAME(MONTH,timeofpurchase)=m.monthValue
+            GROUP BY m.monthValue, m.id
+            having m.monthValue in (select monthValue from MonthTable)
+            order by m.id desc";
     $stmt = $conn->prepare($query);
     $stmt->execute();
     $totalsalesList = $stmt->fetchAll();
@@ -39,12 +42,15 @@ if ($locationFilter == 'ALL') {
         echo json_encode($data);
     }
 } else {
-    $sql_selectstore = "SELECT DATENAME(MONTH,timeofpurchase) as 'Month', COUNT(*), SUM(totalprice) as 'Total Sales'
-                        FROM transactions t, store st, staff stf
-                        WHERE t.staffId=stf.staffId
+    $sql_selectstore = "SELECT  m.monthValue as 'Month', COUNT(*) as 'Total Transactions', SUM(totalprice) as 'Total Sales'
+                        FROM transactions t, MonthTable m, store st, staff stf
+                        WHERE DATENAME(MONTH,timeofpurchase)=m.monthValue
+                        and t.staffId=stf.staffId
                         AND stf.storeId=st.storeId
-                        AND st.storeName = '" . $locationFilter . "'
-                        GROUP BY DATENAME(MONTH,timeofpurchase),YEAR(timeofpurchase)";
+                        AND st.storeName = '".$locationFilter."'
+                        GROUP BY m.monthValue, m.id
+                        having m.monthValue in (select monthValue from MonthTable)
+                        order by m.id desc";
     $stmt2 = $conn->prepare($sql_selectstore);
     $stmt2->execute();
     $storesalesList = $stmt2->fetchAll();
