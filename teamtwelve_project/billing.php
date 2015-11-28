@@ -1,3 +1,18 @@
+<?php 
+session_start();
+if(isset($_SESSION['staffId']))
+{
+    $_SESSION['adminStatus'];
+    $_SESSION['staffId'];
+    $_SESSION['storeId'];
+    $_SESSION['staffName'];
+    echo '<div class="alert alert-success" role="alert">Welcome '.$_SESSION["staffName"].' <a href="logout.php">Click here to logout</a></div></div>';
+}
+else{
+    header("Location: stafflogin.php");
+}
+?>
+
 <?php
 session_start();
    
@@ -12,22 +27,22 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
         if(isset($_GET["searchCustomerId"]) && $customerId!="")
         {            
             $message="Searching by customer ID: $customerId";
-            $sql_select = "SELECT * FROM dbo.Transactions T,dbo.Customer C WHERE T.orderStatus='False' AND T.customerId=C.customerId AND T.customerId='$customerId'" ;
+            $sql_select = "SELECT * FROM orderStatus_False WHERE customerId='$customerId'" ;
         }
         else if(isset($_GET["searchCustomerName"])&& $customerName!="")
         {   
              $message="Searching by customer Name: $customerName";
             //looking if a customer contain that name
-            $sql_select = "SELECT * FROM dbo.Transactions T,dbo.Customer C WHERE T.orderStatus='False' AND T.customerId=C.customerId AND C.customerName like '%$customerName%'" ;
+            $sql_select = "SELECT * FROM orderStatus_False WHERE customerName like '%$customerName%'" ;
         }
         else if(isset($_GET["searchOrderId"])&& $orderId!="")
         {
             $message="Searching by order ID: $orderId";
-            $sql_select = "SELECT * FROM dbo.Transactions T,dbo.Customer C WHERE T.orderStatus='False' AND T.customerId=C.customerId AND T.orderId='$orderId'" ;
+            $sql_select = "SELECT * FROM orderStatus_False WHERE orderId='$orderId'" ;
         }
         else{
-            $message="Hi";
-            $sql_select = "SELECT * FROM dbo.Transactions T,dbo.Customer C WHERE T.orderStatus='False' AND T.customerId=C.customerId " ;
+            $message="";
+            $sql_select = "SELECT * FROM orderStatus_False" ;
         }
     }
         require_once "../../protected/team12/config.php";
@@ -88,7 +103,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
               </div>
               <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                  <button type="submit" class="btn btn-default">Search</button>
+                  <button type="submit" class="btn btn-success">Search</button>
                 </div>
               </div>
             </form>
@@ -118,7 +133,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
                 echo "<td>".$transaction['orderStatus']."</td>";
                 echo "<td>".$transaction['customerId']."</td>";
                 echo "<td>".$transaction['customerName']."</td>";
-                echo "<td><form action='viewBilling.php' form method='get'><button id='selectOrder' name='selectOrder' value=".$transaction['orderId'].">Order</button></form></td>";
+                echo "<td><form action='viewBilling.php' form method='get'><button class='btn btn-success' id='selectOrder' name='selectOrder' value=".$transaction['orderId'].">Order</button></form></td>";
                 echo "</tr>";
             }
             ?>

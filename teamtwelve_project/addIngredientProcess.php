@@ -7,8 +7,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
         $deleteIngredient=$_POST["deleteIngredient"];
         $mode="delete";
-        echo $deleteIngredient;
-        echo $mode;
     }
     if (isset($_POST["inputIngredientName"]))
     {
@@ -18,18 +16,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         echo $ingredientName;
         echo $ingredientPrice;
         $mode="insert";
-        echo $mode;
     }
     if (isset($_POST["updateIngredientId"]))
     {
         $updateIngredientId=$_POST["updateIngredientId"];
         $updateIngredientName=$_POST["updateIngredientName"];
         $updateIngredientPrice=$_POST["updateIngredientPrice"];
-        echo $updateIngredientId;
-        echo $updateIngredientName;
-        echo $ingredientPrice;
         $mode="update";
-        echo $mode;
     }
     
 //    if ($usernameValid && $emailValid && $pwd1Valid && $pwd2Valid)
@@ -58,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 $stmt->bindValue(1, $ingredientName);
                 $stmt->bindValue(2,  $ingredientPrice);
                 $stmt->execute();
-                header("Location: staffmenu.php");
+                header("Location: viewIngredient.php");
             }
             if($mode=="update")
                 {
@@ -70,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                     {
                     $sql_update = "UPDATE dbo.Ingredient SET ingredientName='$updateIngredientName',price='$updateIngredientPrice' WHERE ingredientId =$updateIngredientId" ;
                     $Query = $conn->query($sql_update);
-                    header("Location: staffmenu.php");
+                    header("Location: viewIngredient.php");
                     }
                  }
             if($mode=="delete")
@@ -83,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                     {
                     $sql_delete = "DELETE FROM dbo.Ingredient where ingredientId =$deleteIngredient" ;
                     $Query = $conn->query($sql_delete);
-                    header("Location: staffmenu.php");
+                    header("Location: viewIngredient.php");
                     }
                  }
         }

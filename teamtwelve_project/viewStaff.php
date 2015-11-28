@@ -1,50 +1,22 @@
 <?php
 session_start();
-//    if (isset($_POST["username"]))
-//    {
-//        $username = trim($_POST["username"]);
-//        if (!empty($username))    
-//        {
-//            if($username != "User Name is a required field." )
-//                $usernameValid = true;
-//        }
-//    }
-//    if (isset($_POST["name"]))
-//    {
-//        $name = trim($_POST["name"]);
-//        if (!empty($name))    
-//        {
-//            if($name != "Name is a required field." )
-//                $nameValid = true;
-//        }
-//    }
-//        
-//    if (isset($_POST["email"]))
-//    {
-//        $email = trim($_POST["email"]);
-//        $emailPattern = "/^(.+)@([^\.].*)\.([a-z]{2,})$/";
-//        $emailValid = preg_match($emailPattern, $email);
-//    }
-//        
-//    if (isset($_POST["passwd"]))
-//    {
-//        $pwd1 = $_POST["passwd"];
-//        $pwd1Valid = true;
-//    }
-//   
-//    if (isset($_POST["cpasswd"]))
-//    {
-//        if($pwd1Valid)
-//        {
-//            $pwd2 = $_POST["cpasswd"];
-//            $pwd2Valid = ($pwd1 == $pwd2);
-//        }
-//    }
-//
-//    
-//    if ($usernameValid && $emailValid && $pwd1Valid && $pwd2Valid)
-//    {
-//        session_start();
+
+if(isset($_SESSION['staffId'])&&$_SESSION['adminStatus']=='YES')
+{
+    $_SESSION['adminStatus'];
+    $_SESSION['staffId'];
+    $_SESSION['storeId'];
+    $_SESSION['staffName'];
+    echo '<div class="alert alert-success" role="alert">Welcome '.$_SESSION["staffName"].' <a href="logout.php">Click here to logout</a></div>';
+}
+else if(isset($_SESSION['staffId']))
+    {
+     header("Location: staffmenu.php");
+}
+else{
+    header("Location: stafflogin.php");
+}
+
         
         require_once "../../protected/team12/config.php";
         $host = DBHOST;
@@ -64,7 +36,10 @@ session_start();
         try{
     $sql_select = "SELECT * FROM dbo.Staff S, dbo.Store D WHERE S.storeId=D.storeId" ;
     $stmt = $conn->query($sql_select);
-    $staffs = $stmt->fetchAll(); 
+    $staffs = $stmt->fetchAll();
+    $sql_select1 = "SELECT * FROM dbo.Store " ;
+    $stmt1 = $conn->query($sql_select1);
+    $locations = $stmt1->fetchAll(); 
     ?>
     <html lang="en">
         <head>
@@ -88,17 +63,35 @@ session_start();
             <tr>
                 <th>Staff ID</th>
                 <th>Staff Name</th>
+                <th>User Name</th>
                 <th>Location</th>
                 <th></th>
                 <th></th>
             </tr>
             <?php
             foreach($staffs as $staff) {
-                echo "<tr><td>".$staff['staffId']."</td>";
-                echo "<td>".$staff['staffName']."</td>";
-                echo "<td>".$staff['storeLocation']."</td>";
-                echo "<td>Edit</td>";
-                echo "<td>Delete</td></tr>";
+                echo "<tr>";
+                echo "<td><form action='addStaffProcess.php' method='post'>".$staff['staffId']."</td>";
+                echo "<td><input type='text' name='updateStaffName' value=".$staff['staffName']."></td>";
+                echo "<td><input type='text' name='updateStaffUserName' value=".$staff['username']."></td>";
+                echo "<td>";
+                echo '<select name="updateLocation">';
+                    foreach($locations as $location)
+                    { 
+                        if($staff['storeId']==$location['storeId']){
+                        echo '<option id="optionlocaiton" value='.$location['storeId'].' selected>'.$location['storeLocation'];
+                        echo '</option>';
+                        }
+                        else{
+                        echo '<option id="optionlocaiton" value='.$location['storeId'].'>'.$location['storeLocation'];
+                        echo '</option>';
+                        }
+                    }
+                echo '</select>';
+                echo "</td>";
+                echo "<td><button class='btn btn-success' id='updateStaffId' name='updateStaffId' value=".$staff['staffId'].">Edit</button></form></td>";
+                echo '<td><form action="addStaffProcess.php" method="post"><button class="btn btn-danger" id="deleteStaff" name="deleteStaff" value='.$staff["staffId"].'>delete</button></form></td>';
+                echo "</tr>";
             }
             ?>
           </table>

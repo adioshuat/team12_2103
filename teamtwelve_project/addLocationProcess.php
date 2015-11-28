@@ -55,19 +55,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             $stmt->bindValue(2,  $storeLocation);
             $stmt->bindValue(3, $storeContact);
             $stmt->execute();
-            header("Location: staffmenu.php");
+            header("Location: viewLocation.php");
                   }
             if($mode=="update")
                 {
-                $sql_select = "SELECT * FROM dbo.Store where storetId =$updateStoreId" ;
+                $sql_select = "SELECT * FROM dbo.Store where storeId ='$updateStoreId'" ;
                 $stmt = $conn->query($sql_select);
                 $stalls = $stmt->fetchAll(); 
                 $result=count($stalls);
                 if($result==1)
                     {
-                    $sql_update = "UPDATE dbo.Store SET storeName='$updateStoreName',storeLocation='$updateStoreLocation',storeContact='$updateStoreContact' WHERE storeId =$updateStoreId" ;
+                    $sql_update = "UPDATE dbo.Store SET storeName='$updateStoreName',storeLocation='$updateStoreLocation',storeContact='$updateStoreContact' WHERE storeId ='$updateStoreId'" ;
                     $Query = $conn->query($sql_update);
-                    header("Location: staffmenu.php");
+                    header("Location: viewLocation.php");
                     }
                  }
             if($mode=="delete")
@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                     {
                     $sql_delete = "DELETE FROM dbo.store where storeId =$deleteStore" ;
                     $Query = $conn->query($sql_delete);
-                    header("Location: staffmenu.php");
+                    header("Location: viewLocation.php");
                     }
                  }
         }
@@ -92,5 +92,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         }
         
 }
-
+//asdas
 ?>

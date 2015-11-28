@@ -1,24 +1,24 @@
-<!DOCTYPE html>
-<?php
-
+<?php 
 session_start();
+if(isset($_SESSION['staffId']))
+{
+    $_SESSION['adminStatus'];
+    $_SESSION['staffId'];
+    $_SESSION['storeId'];
+    $_SESSION['staffName'];
+    echo '<div class="alert alert-success" role="alert">Welcome '.$_SESSION["staffName"].' <a href="logout.php">Click here to logout</a></div></div>';
+}
+else{
+    header("Location: stafflogin.php");
+}
 $orderId=$_GET["selectOrder"];
-        $orderId;
-      //$orderId='TRS001';
-//
-//if(isset($_SESSION['userid']))
-//{
-//    $userd= $_SESSION['userid'];
-//}
-//else{
-//    header("Location: login.php");
-//}
 ?>
 
+<!DOCTYPE html>
 <html>
     <head>
         <title>View Order</title>
-        <link href="css/milktea_style.css" rel="stylesheet" type="text/css"/>
+        <link href="css/staff-menu.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>  
         <div class="container">
@@ -60,7 +60,7 @@ $orderId=$_GET["selectOrder"];
     if(count($transactions) > 0) {
         ?>
         <div>
-        <table width="100%" border="1">
+        <table class="viewBilling table-bordered" width="100%" border="1">
         <h2>Approve Order</h2>    
         <tr> 
           <td><strong><font color="#000000">Item</font></strong></td>
@@ -86,7 +86,8 @@ $orderId=$_GET["selectOrder"];
           echo '<td>'.round($trans['itemPrice'],2).'</td>';
           $totalPrice=$totalPrice+$trans['itemPrice'];
           echo "<td><form action='billingProcess.php' method='post'>";
-          echo "<button id='deleteItem' name='deleteItem' value=".$trans['itemId'].">Delete</button>";
+          echo "<button class='btn btn-danger' id='deleteItem' name='deleteItem' value=".$trans['itemId'].">Delete</button>";
+          echo "<input type='hidden' name='deleteOrderId' value='$orderId'>";
           echo "</form>";
           echo '</td>';
           echo '</tr>';
@@ -115,10 +116,10 @@ $orderId=$_GET["selectOrder"];
             echo '<td><form action="billingProcess.php" method="post"></td>';
             echo '<td></td>';
             echo '<td>';
-            echo '<select name="drinkOption">';
+            echo '<select name="drinkOption" id="drinkOption">';
                     foreach($drink as $dri)
                     { 
-                        echo '<option id="optionint" value='.$dri['DrinkId'].'>'.$dri['DrinkName'];
+                        echo '<option id="optionint" value='.$dri['DrinkId'].'>'.$dri['DrinkType'].":".$dri['DrinkName'];
                         echo '</option>';
                     }
             echo '</select>';
@@ -142,7 +143,7 @@ $orderId=$_GET["selectOrder"];
             echo '</select>';
             echo '</td>';
             echo '<td>';
-            echo '<select name="sugarOption">';
+            echo '<select name="sugarOption" id="sugarOption">';
                     foreach($sugarlevel as $sur)
                     { 
                         echo '<option id="optionsur" value='.$sur['sugarLevelId'].'>'.$sur['levelDescription'].'--'.$sur['percentage'];
@@ -150,16 +151,16 @@ $orderId=$_GET["selectOrder"];
                     }
                     echo '</select>';
             echo '</td>';
-            echo '<td><input type="number" pattern="^[0-50]" min="1" value="1" placeholder="Pick a number" name="numOfDrink" id="numOfDrink" /></td>';
-            echo '<td>'.$drink["price"].'</td>';
-            echo '<td><button id="addOrderId" name="addOrderId" value='.$orderId.'>Add</button></form></td>';
+            echo '<td><input onchange="myFunction()" type="number" pattern="^[0-50]" min="1" value="1" placeholder="Pick a number" name="numOfDrink" id="numOfDrink" /></td>';
+            echo '<td id="price"></td>';
+            echo '<td><button class="btn btn-success" id="addOrderId" name="addOrderId" value='.$orderId.'>Add</button></form></td>';
         ?>
             </tr>
             </table>
             <p><br/></p>
             <h2>Total Price= <?php echo  $totalPrice; ?></h2>
             <form action='billingProcess.php' method='post'>
-            <button id='approveOrder' name='approveOrder' value='<?php echo $orderId; ?>'>Approve</button>
+            <button class="btn btn-success" id='approveOrder' name='approveOrder' value='<?php echo $orderId; ?>'>Approve</button>
             <input type='hidden' name='totalPrice' value='<?php echo $totalPrice;?>'>
             </form>
         </div>
@@ -168,8 +169,85 @@ $orderId=$_GET["selectOrder"];
     else{
         echo "<h3>No orders found.</h3>";
         echo '<p></p>';
-    }
-
+        ?>
+        <table class="viewBilling table-bordered" width="100%" border="1">
+        <h2>Add Order</h2>    
+        <tr> 
+          <td><strong><font color="#000000">Item</font></strong></td>
+          <td><strong><font color="#000000">Type</font></strong></td>
+          <td><strong><font color="#000000">Drink</font></strong></td>
+          <td><strong><font color="#000000">Ingredient</font></strong></td>
+          <td><strong><font color="#000000">Cup size</font></strong></td>
+          <td><strong><font color="#000000">Sugar</font></strong></td>
+          <td><strong><font color="#000000">Quantity</font></strong></td>
+          <td><strong><font color="#000000">Price ($)</font></strong></td>
+          <td><strong><font color="#000000">Delete</strong></td>
+        </tr> 
+        <tr> 
+        <?php
+                    //find all drink
+            $sql_selectDrink= "SELECT * FROM dbo.Drinkbase ORDER BY DrinkId";
+            $stmdri = $connection->query($sql_selectDrink);
+            $drink = $stmdri->fetchAll();
+            //find all ingredient
+            $sql_selectingredient= "SELECT * FROM dbo.Ingredient ORDER BY ingredientId";
+            $stmting = $connection->query($sql_selectingredient);
+            $ingredient = $stmting->fetchAll();
+           //find all sugar
+            $sql_selectsugar= "SELECT * FROM dbo.SugarLevel";
+            $stmtsug = $connection->query($sql_selectsugar);
+            $sugarlevel = $stmtsug->fetchAll();
+            //find all cup size
+            $sql_selectcup= "SELECT * FROM dbo.Cup";
+            $stmtcup = $connection->query($sql_selectcup);
+            $cupsize = $stmtcup->fetchAll();
+            
+            echo '<td><form action="billingProcess.php" method="post"></td>';
+            echo '<td></td>';
+            echo '<td>';
+            echo '<select name="drinkOption" id="drinkOption">';
+                    foreach($drink as $dri)
+                    { 
+                        echo '<option id="optionint" value='.$dri['DrinkId'].'>'.$dri['DrinkType'].":".$dri['DrinkName'];
+                        echo '</option>';
+                    }
+            echo '</select>';
+            echo '</td>';
+            echo '<td>';
+            echo '<select name="ingredientOption">';
+                    foreach($ingredient as $int)
+                    { 
+                        echo '<option id="optionint" value='.$int['ingredientId'].'>'.$int['ingredientName'];
+                        echo '</option>';
+                    }
+            echo '</select>';   
+            echo '</td>';
+            echo '<td>';
+            echo '<select name="cupOption">';
+                    foreach($cupsize as $cup)
+                    { 
+                        echo '<option id="optioncup" value='.$cup['cupId'].'>'.$cup['cupName'];
+                        echo '</option>';
+                    }
+            echo '</select>';
+            echo '</td>';
+            echo '<td>';
+            echo '<select name="sugarOption" id="sugarOption">';
+                    foreach($sugarlevel as $sur)
+                    { 
+                        echo '<option id="optionsur" value='.$sur['sugarLevelId'].'>'.$sur['levelDescription'].'--'.$sur['percentage'];
+                        echo '</option>';
+                    }
+                    echo '</select>';
+            echo '</td>';
+            echo '<td><input onchange="myFunction()" type="number" pattern="^[0-50]" min="1" value="1" placeholder="Pick a number" name="numOfDrink" id="numOfDrink" /></td>';
+            echo '<td id="price"></td>';
+            echo '<td><button class="btn-success" id="addOrderId" name="addOrderId" value='.$orderId.'>Add</button></form></td>';
+        ?>
+            </tr>
+            </table>        
+    <?php    
+        }
     ?>    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="js/bootstrap.min.js" type="text/javascript"></script>

@@ -1,9 +1,21 @@
 <?php
 session_start();
-   
-//    if ($usernameValid && $emailValid && $pwd1Valid && $pwd2Valid)
-//    {
-//        session_start();
+
+if(isset($_SESSION['staffId'])&&$_SESSION['adminStatus']=='YES')
+{
+    $_SESSION['adminStatus'];
+    $_SESSION['staffId'];
+    $_SESSION['storeId'];
+    $_SESSION['staffName'];
+    echo '<div class="alert alert-success" role="alert">Welcome '.$_SESSION["staffName"].' <a href="logout.php">Click here to logout</a></div>';
+}
+else if(isset($_SESSION['staffId']))
+    {
+     header("Location: staffmenu.php");
+}
+else{
+    header("Location: stafflogin.php");
+}
         
         require_once "../../protected/team12/config.php";
         $host = DBHOST;
@@ -56,10 +68,10 @@ session_start();
                 echo "<td><form method='post' action='addIngredientProcess.php'>".$ingredient['ingredientId']."</td>";
                 echo "<td><input type='text' name='updateIngredientName' value=".$ingredient['ingredientName']."></td>";
                 echo "<td><input type='text' name='updateIngredientPrice' value=".$ingredient['price']."></td>";
-                echo "<td><button id='updateIngredientId' name='updateIngredientId' value=".$ingredient['ingredientId'].">Edit</button></form></td>";
+                echo "<td><button class='btn btn-default' id='updateIngredientId' name='updateIngredientId' value=".$ingredient['ingredientId'].">Edit</button></form></td>";
                 echo "<td>";
                 echo "<form action='addIngredientProcess.php' method='post'>";
-                echo "<button id='deleteIngredient' name='deleteIngredient' value=".$ingredient['ingredientId'].">Delete</button>";
+                echo "<button class='btn btn-danger' id='deleteIngredient' name='deleteIngredient' value=".$ingredient['ingredientId'].">Delete</button>";
                 echo "</form>";
                 echo "</td>"; 
                 echo "</tr>";

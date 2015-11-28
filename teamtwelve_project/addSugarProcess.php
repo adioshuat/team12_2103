@@ -3,9 +3,9 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
     $mode;
-    if (isset($_POST["inputSugarDelete"]))
+    if (isset($_POST["deleteSugar"]))
     {
-        $sugarDelete=$_POST["inputSugarDelete"];
+        $sugarDelete=$_POST["deleteSugar"];
         $mode="delete";
     }
     if (isset($_POST["inputSugarPercentage"]))
@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 $stmt->bindValue(1, $sugarPercentage);
                 $stmt->bindValue(2,  $sugarDescription);
                 $stmt->execute();
-                header("Location: staffmenu.php");
+                header("Location:viewSugarLevel.php");
                  }
              if($mode=="delete")
                 {
@@ -62,8 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                     {
                     $sql_delete = "DELETE FROM dbo.SugarLevel where sugarLevelId =$sugarDelete" ;
                     $Query = $conn->query($sql_delete);
-                    $deleteSugar = $Query->fetchAll(); 
-                    header("Location: staffmenu.php");
+                    header("Location:viewSugarLevel.php");
                     }
                  }
              if($mode=="update")
@@ -76,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                     {
                     $sql_update = "UPDATE dbo.SugarLevel SET percentage='$updateSugarPercentage',levelDescription='$updateSugarDescription' WHERE sugarLevelId =$updateSugarId" ;
                     $Query = $conn->query($sql_update);
-                    header("Location: staffmenu.php");
+                    header("Location:viewSugarLevel.php");
                     }
                  }
 

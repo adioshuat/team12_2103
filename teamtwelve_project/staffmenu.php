@@ -1,3 +1,18 @@
+<?php 
+session_start();
+if(isset($_SESSION['staffId']))
+{
+    $_SESSION['adminStatus'];
+    $_SESSION['staffId'];
+    $_SESSION['storeId'];
+    $_SESSION['staffName'];
+    echo '<div class="alert alert-success" role="alert">Welcome '.$_SESSION["staffName"].' Staff ID: '.$_SESSION['staffId'].'  <a href="logout.php">Click here to logout</a></div>';
+}
+else{
+    header("Location: stafflogin.php");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,9 +24,10 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Staff menu 2</title>
+    <title>Staff menu</title>
 
     <?php include "page_include/staffheader.inc.php"?>
+    
   </head>
 
   <body>
@@ -20,45 +36,57 @@
 
       <div class="container">
         <h1>Staff Menu</h1>
+        
             <table class="menu">
             <thead>
                 <tr>
                     <th>Billing</th>
-                    <th>Add</th>
-                    <th>Edit</th>
                     <th>View</th>
+                    <th>Item Management</th>
                 </tr>
             </thead>
                 <tbody>
                 <tr>
                     <td><a href="billing.php" class="btn btn-success customwidth customwidth" role="button">Billing</a></td>
-                    <td><a href="addStaff.php" class="btn btn-success customwidth customwidth" role="button">Add Staff</a></td>
-                    <td><a href="#" class="btn btn-success customwidth" role="button">Edit Staff</a></td>
-                    <td><a href="viewStaff.php" class="btn btn-success customwidth" role="button">View Sales</a></td>
+                    <td> <a href="viewcustomervisitstore.php" class="btn btn-success customwidth" role="button">View Customer visits</a>
+                        <a href="viewTopFavourite.php" class="btn btn-success customwidth" role="button">View Top Favourite</a>
+                    </td>
+                    <td>
+                        <a href="addStaff.php" class="btn btn-success customwidth customwidth" role="button">Add Staff</a>
+                        <a href="viewStaff.php" class="btn btn-success customwidth" role="button">View Staff</a>
+                    </td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td><a href="addLocation.php" class="btn btn-success customwidth" role="button">Add Location</a></td>
-                    <td><a href="viewLocation.php" class="btn btn-success customwidth" role="button">Edit Location</a></td>
-                    <td><a href="#" class="btn btn-success customwidth" role="button">View Customer</a></td>
-                </tr>
-                <tr>
-                    <td><a href="viewDrink.php" class="btn btn-success customwidth" role="button">View drink</a></td>
-                    <td><a href="addDrink.php" class="btn btn-success customwidth" role="button">Add Drink</a></td>
-                    <td><a href="#" class="btn btn-success customwidth" role="button">Edit drink</a></td>
-                    <td><a href="viewStaff.php" class="btn btn-success customwidth" role="button">View Staff</a></td>
-                </tr>
-                <tr>
-                     <td><a href="viewIngredient.php" class="btn btn-success customwidth" role="button">View ingredient</a></td>
-                    <td><a href="addIngredient.php" class="btn btn-success customwidth" role="button">Add ingredient</a></td>
-                    <td><a href="#" class="btn btn-success customwidth" role="button">Edit ingredient</a></td>
-                    <td><a href="viewLocation.php" class="btn btn-success customwidth" role="button">View Location</a></td>
+                    <td></td>
+                    <td>
+                        <a href="addLocation.php" class="btn btn-success customwidth" role="button">Add Location</a>
+                        <a href="viewLocation.php" class="btn btn-success customwidth" role="button">View Location</a>
+                    </td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td><a href="addSugarLevel.php" class="btn btn-success customwidth" role="button">Add Sugar level</a></td>
-                    <td><a href="#" class="btn btn-success customwidth" role="button">Edit Sugar level</a></td>
-                    <td><a href="viewSugarLevel.php" class="btn btn-success customwidth" role="button">view Sugar level</a></td>
+                    <td></td>
+                    <td>
+                        <a href="addDrink.php" class="btn btn-success customwidth" role="button">Add Drink</a>
+                        <a href="viewDrink.php" class="btn btn-success customwidth" role="button">View drink</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <a href="addIngredient.php" class="btn btn-success customwidth" role="button">Add ingredient</a>
+                        <a href="viewIngredient.php" class="btn btn-success customwidth" role="button">View ingredient</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <a href="addSugarLevel.php" class="btn btn-success customwidth" role="button">Add Sugar level</a>
+                        <a href="viewSugarLevel.php" class="btn btn-success customwidth" role="button">view Sugar level</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>

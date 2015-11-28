@@ -1,4 +1,50 @@
-<!DOCTYPE html>
+<?php
+session_start();
+
+if(isset($_SESSION['staffId'])&&$_SESSION['adminStatus']=='YES')
+{
+    $_SESSION['adminStatus'];
+    $_SESSION['staffId'];
+    $_SESSION['storeId'];
+    $_SESSION['staffName'];
+    echo '<div class="alert alert-success" role="alert">Welcome '.$_SESSION["staffName"].' <a href="logout.php">Click here to logout</a></div>';
+}
+else if(isset($_SESSION['staffId']))
+    {
+     header("Location: staffmenu.php");
+}
+else{
+    header("Location: stafflogin.php");
+}
+?>
+
+<?php
+
+
+        require_once "../../protected/team12/config.php";
+        $host = DBHOST;
+        $user = DBUSER;
+        $pwd = DBPASS;
+        $db =  DBNAME;
+
+        // Connecting to database
+        try {
+            $conn = new PDO( "sqlsrv:Server= $host ; Database = $db ", $user, $pwd);
+            $conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+        }
+        catch(Exception $e){
+            die(var_dump($e));
+        }
+        
+        try{
+            $sql_select= "SELECT * FROM dbo.Store";
+            $stmt = $conn->query($sql_select);
+            $locations = $stmt->fetchAll();
+        } catch (Exception $ex) {
+            die(var_dump($e));
+        }
+
+?><!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -27,12 +73,31 @@
                 </div>
               </div>
               <div class="form-group">
-                <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+                <label for="inputUserName" class="col-sm-2 control-label">User Name</label>
                 <div class="col-sm-10">
-                  <input type="password" class="form-control" id="inputPassword" name="inputPassowrd" placeholder="Password">
+                  <input type="text" class="form-control" id="inputUserName" name="inputUserName" placeholder="Staff Name">
                 </div>
               </div>
               <div class="form-group">
+                <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+                <div class="col-sm-10">
+                  <input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="Password">
+                </div>
+              </div>
+              <div class="form-group">
+
+                   <label for="inputLocation" class="col-sm-2 control-label">Location</label>
+                    <div class="col-sm-10">
+                    <?php
+                    echo '<select name="inputLocation">';
+                    foreach($locations as $location)
+                    { 
+                        echo '<option id="optioncup" value='.$location['storeId'].'>'.$location['storeName'];
+                        echo '</option>';
+                    }
+                     echo '</select>';
+                         ?>
+                    </div>
               </div>
               <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
