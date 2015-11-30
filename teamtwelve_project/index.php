@@ -8,8 +8,9 @@ $categorysel = explode("=",$current_url);
 
 <html>
     <head>
-        <title>Milk Tea Treble</title>
+        <link rel="shortcut icon" href="/images/favicon.ico">
         <link href="css/milktea_style.css" rel="stylesheet" type="text/css"/>
+        <title>Milk Tea Treble</title>
     </head>
     <body>  
         <div class="container">

@@ -112,7 +112,7 @@ else{
                     
                     echo '<tr>';
                     echo '<td><h3>Quantity: </h3>';
-                    echo '<input type="number" pattern="^[0-50]" min="1" value="1" placeholder="Pick a number" name="numOfDrink" id="numOfDrink" />';
+                    echo '<input type="number" pattern="^[1-50]" min="1" value="1" placeholder="Pick a number" name="numOfDrink" id="numOfDrink" />';
                     echo '</td></tr>';
                     
                     echo '<tr><td><input type="text" id="drinkid" name="drinkid" style="display:none;" value='.$drinksel[1].'></td></tr>';

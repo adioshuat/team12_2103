@@ -10,8 +10,9 @@ if(isset($_SESSION['staffId'])&&$_SESSION['adminStatus']=='YES')
     echo '<div class="alert alert-success" role="alert">Welcome '.$_SESSION["staffName"].' <a href="logout.php">Click here to logout</a></div>';
 }
 else if(isset($_SESSION['staffId']))
-    {
-     header("Location: staffmenu.php");
+{
+    $message = "You would need admin rights to proceed!";
+    echo "<script type='text/javascript'>alert('$message');window.location.href='staffmenu.php';</script>";
 }
 else{
     header("Location: stafflogin.php");
@@ -50,7 +51,16 @@ else{
             die(var_dump($e));
         }
         
-        $sql= "SELECT name FROM filtercategory order by name";
+        $sql= "SELECT TABLE_NAME 
+            FROM INFORMATION_SCHEMA.TABLES
+            WHERE TABLE_TYPE = 'BASE TABLE'
+            and TABLE_NAME like 'Store%'
+            or TABLE_NAME like 'Customer%'
+            or TABLE_NAME like 'Staff%'
+            or TABLE_NAME like 'Ingredient%'
+            or TABLE_NAME like 'Drinkbase%'
+            or TABLE_NAME like 'SugarLevel%'
+            order by TABLE_NAME";
         $stmtcat = $conn->prepare($sql);
         $stmtcat->execute();
         $catname = $stmtcat->fetchAll();?>
@@ -66,20 +76,21 @@ else{
                 
                     foreach($catname as $name)
                     {
-                        echo '<option id="option" value="'.$name['name'].'">'.$name['name'];
+                        echo '<option id="option" value="'.$name['TABLE_NAME'].'">'.$name['TABLE_NAME'];
                         echo '</option>';
                     }
                     echo '</select>';
+                    echo '<p></p>';
+                    echo 'Display in Pie-Chart view <input type="checkbox" onClick="drawChart()" id="myCheck">';
                     ?>
-              </div>  
-              <p id="filter"></p>
-            <div id="chart_div"></div>
+              </div>
+              <div id="chart_div"></div>
         </div>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
       google.load('visualization', '1.0', {'packages':['corechart']});
       google.setOnLoadCallback(drawChart);
-      
+     
       function drawChart() {
         var filter = document.getElementById("mySelect").value;
        
@@ -88,7 +99,7 @@ else{
         data.addColumn('string', filter);
         data.addColumn('number', 'Quantity');
         
-        if(filter==='Drink')
+        if(filter==='Drinkbase')
         {
         <?php
             $sql_select= "select top 5 i.drinkId, d.DrinkType, d.DrinkName, sum(i.quantity) as total from items i, Transactions t, Drinkbase d
@@ -153,7 +164,7 @@ else{
                 }
             }
         ?>}
-        else if(filter==='Sugar Preference')
+        else if(filter==='SugarLevel')
         {
         <?php
             $sql_sugar= "select top 5 i.sugarLevelId, sg.percentage, sum(i.quantity) as total from items i, Transactions t, SugarLevel sg
@@ -216,19 +227,27 @@ else{
                 }
             }
         ?>
-        } 
-                   
+        }
+        
         var options = {
-          title: 'Sales Result',
+          title: 'Top Results',
           'width':800,
           'height':450,
           bar: {groupWidth: "10%"},
           legend: {position: "bottom"}
         };
          
-        var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+        if(document.getElementById('myCheck').checked === true)
+        {
+             var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
        
-        chart.draw(data, options);
+             chart.draw(data, options);
+        }
+        else{
+            var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+            
+            chart.draw(data, options);
+        }
       }
   </script>
 </body>

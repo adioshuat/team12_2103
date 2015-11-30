@@ -40,8 +40,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             $output= "<p>Unable to connect to database<p>". $error;
             exit($output);
         }
-            $sql_select= "select * from Drinkbase
-                        where drinktype like '%".$searchvalue."%' or DrinkName like '%".$searchvalue."%'";
+        
+            $searchFilter = str_replace(" ","%",$searchvalue);
+            $sql_select= "SELECT CONCAT(DrinkType, ' ', DrinkName) as 'drinkFullName' 
+                            FROM Drinkbase where CONCAT(DrinkType, ' ', DrinkName) LIKE '%".$searchFilter."%'";
             $stmt = $connection->prepare($sql_select);
             $stmt->bindValue(1, $searchvalue);
             $stmt->execute();

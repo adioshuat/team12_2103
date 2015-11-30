@@ -10,8 +10,9 @@ if(isset($_SESSION['staffId'])&&$_SESSION['adminStatus']=='YES')
     echo '<div class="alert alert-success" role="alert">Welcome '.$_SESSION["staffName"].' <a href="logout.php">Click here to logout</a></div>';
 }
 else if(isset($_SESSION['staffId']))
-    {
-     header("Location: staffmenu.php");
+{
+    $message = "You would need admin rights to proceed!";
+    echo "<script type='text/javascript'>alert('$message');window.location.href='staffmenu.php';</script>";
 }
 else{
     header("Location: stafflogin.php");
@@ -69,10 +70,12 @@ tags -->
                         echo '</option>';
                     }
                     echo '</select>';
-                    ?>
-              <p id="filter"></p>
+                    echo '<p></p>';
+                    echo 'Display in Pie-Chart view <input type="checkbox" onClick="drawChart()" id="myCheck">';
+                    ?>         
+                  <p id="searchresult"></p>
               </div>  
-              <p id="searchresult"></p>
+     
               <div id="chart_div"></div>
         </div>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -98,7 +101,6 @@ tags -->
                 for (var i=0; i<myArr.length; i++) {
                     chartData.push([myArr[i].month, myArr[i].total_sales]);
                 }
-                console.log(chartData);
                 data.addRows(chartData); 
                 var options = {
                     title : 'Monthly Sales',
@@ -111,15 +113,27 @@ tags -->
                     bar: {groupWidth: "10%"},
                     legend: {position: "bottom"}
                 };
-                var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
-                document.getElementById("chart_div").style.visibility = "visible";
-                document.getElementById("searchresult").style.visibility = "hidden";
-                chart.draw(data, options);
+                
+                if(document.getElementById('myCheck').checked === true)
+                {
+                    document.getElementById("searchresult").innerHTML = "";
+                    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                    document.getElementById("chart_div").style.visibility = "visible";
+                    document.getElementById("searchresult").style.visibility = "hidden";
+                    chart.draw(data, options);
+                }
+                else{
+                    document.getElementById("searchresult").innerHTML = "";
+                    var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+                    document.getElementById("chart_div").style.visibility = "visible";
+                    document.getElementById("searchresult").style.visibility = "hidden";
+                    chart.draw(data, options);
+                }
             }
             else{
                 document.getElementById("chart_div").style.visibility = "hidden";
                 document.getElementById("searchresult").style.visibility = "visible";
-                document.getElementById("searchresult").innerHTML =  "<b>No results found...</b>";
+                document.getElementById("searchresult").innerHTML =  "<br><b>No results found...</b>";
             }
         };
         xmlhttp.open("GET", url, true);

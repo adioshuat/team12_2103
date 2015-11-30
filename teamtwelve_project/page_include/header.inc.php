@@ -40,7 +40,7 @@
          
                 <form class="navbar-form navbar-right" role="form" action="product_search.php" method="post">
                 <div class="form-group">
-                    <input type="text" name='searchText' id='searchText' class="form-control" size="30" placeholder="Looking for something?"/>         
+                    <input type="text" name='searchText' pattern="^[a-zA-Z0-9_ ]*$" id='searchText' class="form-control" size="30" placeholder="Looking for something?"/>         
                     <button type="submit" id="buttonSearch" class="glyphicon glyphicon-search btn-sm"></button>
                 </div>
                 </form>

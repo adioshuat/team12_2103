@@ -10,8 +10,9 @@ if(isset($_SESSION['staffId'])&&$_SESSION['adminStatus']=='YES')
     echo '<div class="alert alert-success" role="alert">Welcome '.$_SESSION["staffName"].' <a href="logout.php">Click here to logout</a></div>';
 }
 else if(isset($_SESSION['staffId']))
-    {
-     header("Location: staffmenu.php");
+{
+    $message = "You would need admin rights to proceed!";
+    echo "<script type='text/javascript'>alert('$message');window.location.href='staffmenu.php';</script>";
 }
 else{
     header("Location: stafflogin.php");
@@ -60,7 +61,7 @@ tags -->
             <div class="form-group">
             <h2>View Customer Visits</h2>
             </div>
-              <div class="form-group">
+            <div class="form-group">
                     <?php
                     echo 'Filter by: ';
                     echo '<select id="mySelect" onchange="searchCustomer()">';
@@ -73,12 +74,12 @@ tags -->
                         echo '</option>';
                     }
                     echo '</select>';
+                    echo '<p></p>';
+                    echo 'Display in Pie-Chart view <input type="checkbox" onClick="searchCustomer()" id="myCheck">';
                     ?>
-              <p id="filter"></p>
-              </div>
-              <div class="form-group">
-              <p id="tablesearch"></p>
-              </div>  
+                <p id="tablesearch"></p>
+            </div>
+            <div id="chart_div"></div>
         </div>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
@@ -93,22 +94,53 @@ tags -->
         var myArr = [];
         var html = "";
         var count=1;
+        
+        var data = new google.visualization.DataTable();
+                   
+        data.addColumn('string', 'Customer Name');
+        data.addColumn('number', 'Total Sales');
     
+        var chartData = [];
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
                 myArr = JSON.parse(xmlhttp.responseText);
-                html += '<br/><table width="50%" border="1">';
+                html += '<br><table width="50%" border="1">';
                 html += "<tr><td><strong><font color='#000000'>No.</font></strong></td><td><strong><font color='#000000'>Customer Name</font></strong></td><td><strong><font color='#000000'>Email</font></strong></td><td><strong><font color='#000000'>Total Spending ($)</font></strong></td></tr>";
                 for (var i = 0; i < myArr.length; i++) {
+                  chartData.push([myArr[i].customer, myArr[i].spent]);
                   html += "<tr><td>"+count+"</td><td>" + myArr[i].customer + "</td><td>" + myArr[i].email + "</td><td>" + myArr[i].spent + "</td></tr>";
                   count++;
                 }
                 html += '</table>';
                 
-                document.getElementById("tablesearch").innerHTML =  html;
+                data.addRows(chartData); 
+        
+                var options = {
+                  title: 'Customer Spending',
+                  'width':800,
+                  'height':450,
+                  bar: {groupWidth: "10%"},
+                  legend: {position: "bottom"}
+                };
+
+                if(document.getElementById('myCheck').checked === true)
+                {
+                     var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                     document.getElementById("chart_div").style.visibility = "visible";
+                     document.getElementById("tablesearch").innerHTML = "";
+                     document.getElementById("tablesearch").style.visibility = "hidden";
+                     chart.draw(data, options);
+                }
+                else{
+                    document.getElementById("chart_div").style.visibility = "hidden";
+                    document.getElementById("tablesearch").style.visibility = "visible";
+                    document.getElementById("tablesearch").innerHTML =  html;
+                }
             }
             else{
-                document.getElementById("tablesearch").innerHTML =  "<b>No results found...</b>";
+                document.getElementById("chart_div").style.visibility = "hidden";
+                document.getElementById("tablesearch").style.visibility = "visible";
+                document.getElementById("tablesearch").innerHTML =  "<br><b>No results found...</b>";
             }
         };
         xmlhttp.open("GET", url, true);

@@ -11,7 +11,8 @@ if(isset($_SESSION['staffId'])&&$_SESSION['adminStatus']=='YES')
 }
 else if(isset($_SESSION['staffId']))
     {
-     header("Location: staffmenu.php");
+    $message = "You would need admin rights to proceed!";
+    echo "<script type='text/javascript'>alert('$message');window.location.href='staffmenu.php';</script>";
 }
 else{
     header("Location: stafflogin.php");
