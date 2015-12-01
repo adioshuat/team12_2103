@@ -77,9 +77,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 $result=count($drinks);
                 if($result==1)
                     {
+                    try{
                     $sql_delete = "DELETE FROM dbo.Staff where staffId ='$deleteStaff' " ;
                     $Query = $conn->query($sql_delete);
                     header("Location: viewStaff.php");
+                    }
+                    catch(Exception $e){
+                        $message = "Invalid delete!";
+                        echo "<script type='text/javascript'>alert('$message');window.location.href='viewStaff.php';</script>";
+                    }
                     }
                  }
         }

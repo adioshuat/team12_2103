@@ -22,7 +22,7 @@ else{
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+    <link rel="shortcut icon" href="/images/favicon.ico">
 
     <title>Staff menu</title>
 
@@ -69,15 +69,15 @@ else{
                     <td></td>
                     <td>
                         <a href="addDrink.php" class="btn btn-success customwidth" role="button">Add Drink</a>
-                        <a href="viewDrink.php" class="btn btn-success customwidth" role="button">View drink</a>
+                        <a href="viewDrink.php" class="btn btn-success customwidth" role="button">View Drink</a>
                     </td>
                 </tr>
                 <tr>
                     <td></td>
                     <td></td>
                     <td>
-                        <a href="addIngredient.php" class="btn btn-success customwidth" role="button">Add ingredient</a>
-                        <a href="viewIngredient.php" class="btn btn-success customwidth" role="button">View ingredient</a>
+                        <a href="addIngredient.php" class="btn btn-success customwidth" role="button">Add Ingredient</a>
+                        <a href="viewIngredient.php" class="btn btn-success customwidth" role="button">View Ingredient</a>
                     </td>
                 </tr>
                 <tr>

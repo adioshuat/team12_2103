@@ -60,9 +60,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 $result=count($sugarlevels);
                 if($result==1)
                     {
+		   try{
                     $sql_delete = "DELETE FROM dbo.SugarLevel where sugarLevelId =$sugarDelete" ;
                     $Query = $conn->query($sql_delete);
                     header("Location:viewSugarLevel.php");
+                    }
+                    catch(Exception $e){
+                        $message = "Invalid delete!";
+                        echo "<script type='text/javascript'>alert('$message');window.location.href='viewSugarLevel.php';</script>";
+                    }
                     }
                  }
              if($mode=="update")

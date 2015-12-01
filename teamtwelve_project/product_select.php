@@ -22,6 +22,7 @@ else{
     <head>
         <title>Milk Tea Treble</title>
         <link href="css/milktea_style.css" rel="stylesheet" type="text/css"/>
+	<link rel="shortcut icon" href="/images/favicon.ico">
         <script src="milktea_script.js" type="text/javascript"></script>
     </head>
     <body>  

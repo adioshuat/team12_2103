@@ -50,6 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 <head>
 <Title>Milk Tea Treble</Title>
 <link href="css/milktea_style.css" rel="stylesheet" type="text/css"/>
+<link rel="shortcut icon" href="/images/favicon.ico">
 </head>
     <body>  
     <div class="container">

@@ -19,6 +19,7 @@ $orderId=$_GET["selectOrder"];
     <head>
         <title>View Order</title>
         <link href="css/staff-menu.css" rel="stylesheet" type="text/css"/>
+	<link rel="shortcut icon" href="/images/favicon.ico">
     </head>
     <body>  
         <div class="container">

@@ -48,8 +48,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             $pwd2Valid = ($pwd1 == $pwd2);
         }
     }
-
-    
     if ($usernameValid && $emailValid && $pwd1Valid && $pwd2Valid)
     {
         session_start();
@@ -70,18 +68,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         }
         
         try{
-            $sql_insert = "INSERT INTO dbo.Customer (username,customerName,email,passw)
-                                   VALUES (?,?,?,?)";
+                $sql_insert = "INSERT INTO dbo.Customer (username,customerName,email,passw)
+                                       VALUES (?,?,?,?)";
 
-            $stmt = $conn->prepare($sql_insert);
-            $stmt->bindValue(1, $username);
-            $stmt->bindValue(2, $name);
-            $stmt->bindValue(3, $email);
-            $stmt->bindValue(4, $pwd2);
-            $stmt->execute();
-            
-            $_SESSION['registered']=true;
-            header("Location: login.php");
+                $stmt = $conn->prepare($sql_insert);
+                $stmt->bindValue(1, $username);
+                $stmt->bindValue(2, $name);
+                $stmt->bindValue(3, $email);
+                $stmt->bindValue(4, $pwd2);
+                $stmt->execute();
+
+                $_SESSION['registered']=true;
+                header("Location: login.php");
         }
         catch(Exception $e) {
             die(var_dump($e));

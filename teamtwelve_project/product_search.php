@@ -14,6 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     <head>
         <title>Milk Tea Treble</title>
         <link href="css/milktea_style.css" rel="stylesheet" type="text/css"/>
+	<link rel="shortcut icon" href="/images/favicon.ico">
         <script src="milktea_script.js" type="text/javascript"></script>
     </head>
     <body>  
@@ -40,9 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             $output= "<p>Unable to connect to database<p>". $error;
             exit($output);
         }
-        
             $searchFilter = str_replace(" ","%",$searchvalue);
-            $sql_select= "SELECT CONCAT(DrinkType, ' ', DrinkName) as 'drinkFullName' 
+            $sql_select= "SELECT *
                             FROM Drinkbase where CONCAT(DrinkType, ' ', DrinkName) LIKE '%".$searchFilter."%'";
             $stmt = $connection->prepare($sql_select);
             $stmt->bindValue(1, $searchvalue);

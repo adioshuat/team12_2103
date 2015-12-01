@@ -83,9 +83,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 $result=count($drinks);
                 if($result==1)
                     {
+                    try{
                     $sql_delete = "DELETE FROM dbo.Drinkbase where DrinkId ='$deleteDrink'" ;
                     $Query = $conn->query($sql_delete);
                     header("Location: viewDrink.php");
+                    }
+                    catch(Exception $e){
+                        $message = "Invalid delete!";
+                        echo "<script type='text/javascript'>alert('$message');window.location.href='viewDrink.php';</script>";
+                    }
                     }
                  }
         }

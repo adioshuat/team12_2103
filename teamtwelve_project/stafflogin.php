@@ -57,8 +57,7 @@ session_start();
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
-    <?php include "page_include/staffheader.inc.php"?>
+    <link rel="shortcut icon" href="/images/favicon.ico">    <?php include "page_include/staffheader.inc.php"?>
     <title>Sign in for admin</title>
 
   </head>

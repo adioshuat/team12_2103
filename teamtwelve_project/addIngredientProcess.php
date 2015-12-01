@@ -74,15 +74,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 $result=count($ingredients);
                 if($result==1)
                     {
+                    
+                    try{
                     $sql_delete = "DELETE FROM dbo.Ingredient where ingredientId =$deleteIngredient" ;
                     $Query = $conn->query($sql_delete);
                     header("Location: viewIngredient.php");
                     }
+                    catch(Exception $e){
+                        $message = "Invalid delete!";
+                        echo "<script type='text/javascript'>alert('$message');window.location.href='viewIngredient.php';</script>";
+                    }
+                    }
                  }
         }
-
-
-        
         catch(Exception $e) {
             die(var_dump($e));
         }
